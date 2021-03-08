@@ -188,7 +188,7 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://motkvil.netlify.app",
+    "https://kitchelper.netlify.app/",
     "http://localhost:3000"
 ]
 
