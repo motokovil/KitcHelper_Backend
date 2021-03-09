@@ -7,7 +7,7 @@ import jwt
 import os
 
 from .models import CustomUserModel
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, CustomUserSerializerSafety
 
 class CustomUser(APIView):
 
@@ -39,13 +39,11 @@ class GetUser(APIView):
             decode = jwt.decode(token, os.getenv("SECRET"))
 
             user = CustomUserModel.objects.get(id=decode['user_id'])
-            serialized = CustomUserSerializer(user)
+            serialized = CustomUserSerializerSafety(user)
             return Response(
                 status=status.HTTP_200_OK,
                 data=serialized.data
             )
-            
-
         except:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST
