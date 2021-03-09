@@ -32,25 +32,19 @@ class GetUser(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request):
+    def post(self, request):
 
         try:
-            id = request.data['id']
             token = request.data['token']
-
             decode = jwt.decode(token, os.getenv("SECRET"))
 
-            if id == decode["user_id"]:
-                user = CustomUserModel.objects.get(id=id)
-                print(decode)
-                serialized = CustomUserSerializer(user)
-                return Response(
-                    status=status.HTTP_200_OK,
-                    data=serialized.data
-                )
+            user = CustomUserModel.objects.get(id=decode['user_id'])
+            serialized = CustomUserSerializer(user)
             return Response(
-                status=status.HTTP_406_NOT_ACCEPTABLE
+                status=status.HTTP_200_OK,
+                data=serialized.data
             )
+            
 
         except:
             return Response(
