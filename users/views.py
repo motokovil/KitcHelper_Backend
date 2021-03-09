@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+import jwt
+import os
 
 from .models import CustomUserModel
 from .serializers import CustomUserSerializer
@@ -24,4 +27,32 @@ class CustomUser(APIView):
             status=status.HTTP_400_BAD_REQUEST,
             data=serialized.errors
         )
-    
+
+class GetUser(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+
+        try:
+            id = request.data['id']
+            token = request.data['token']
+
+            decode = jwt.decode(token, os.getenv("SECRET"))
+
+            if id == decode["user_id"]:
+                user = CustomUserModel.objects.get(id=id)
+                print(decode)
+                serialized = CustomUserSerializer(user)
+                return Response(
+                    status=status.HTTP_200_OK,
+                    data=serialized.data
+                )
+            return Response(
+                status=status.HTTP_406_NOT_ACCEPTABLE
+            )
+
+        except:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST
+            )
