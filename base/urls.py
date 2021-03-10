@@ -29,4 +29,5 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/newUser/', include('users.urls')),
+    path('api/v1/Recipes/', include('recipes.urls')),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
