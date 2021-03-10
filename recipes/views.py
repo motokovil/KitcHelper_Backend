@@ -39,7 +39,10 @@ class ViewRecipes(APIView):
         status=status.HTTP_400_BAD_REQUEST,
       )
 
-  def get(self, request):
+
+class ViewRecipesGet(APIView):
+
+  def post(self, request):
 
     try:
 
