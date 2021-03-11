@@ -10,16 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-#rom dotenv import load_dotenv
-#load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 # OR, the same with increased verbosity
-#load_dotenv(verbose=True)
+load_dotenv(verbose=True)
 
 # OR, explicitly providing path to '.env'
-#from pathlib import Path  # Python 3.6+ only
-#env_path = Path('.') / '.env'
-#load_dotenv(dotenv_path=env_path)
+from pathlib import Path  # Python 3.6+ only
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 import os
 
@@ -48,10 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig',
-    'recipes.apps.RecipesConfig',
     'rest_framework',
     'corsheaders',
+    'users.apps.UsersConfig',
+    'recipes.apps.RecipesConfig',
 ]
 
 MIDDLEWARE = [
@@ -179,7 +179,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': 'motk',
+    'SIGNING_KEY': os.getenv("SECRET"),
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -199,12 +199,10 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-
 CORS_ALLOWED_ORIGINS = [
-"https://kitchelper.netlify.app",
-"http://localhost:3000",
+    "https://kitchelper.netlify.app",
+    "http://localhost:3000",
 ]
-
 
 
 CORS_ALLOW_HEADERS = [
