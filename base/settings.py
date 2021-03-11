@@ -36,7 +36,7 @@ SECRET_KEY = 'p+*i&565al47)enrz3*$^3@!0ab#pwmf=zkv9op^g8y4lden=7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['kitchelper.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -199,14 +199,12 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-if DEBUG == False:
-    CORS_ALLOWED_ORIGINS = [
-    "kitchelper.netlify.app",
-    ]
-else:
-    CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    ]
+
+CORS_ALLOWED_ORIGINS = [
+"https://kitchelper.netlify.app/",
+"http://localhost:3000",
+]
+
 
 
 CORS_ALLOW_HEADERS = [
