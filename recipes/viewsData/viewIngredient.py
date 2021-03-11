@@ -9,7 +9,52 @@ from recipes.serializers import IngredientSerializer
 import jwt
 import os
 
-class ViewIngredient(APIView):
+
+
+class ViewIngredientPost(APIView):
+
+  def post(self, request):
+
+    try:
+
+      token = request.data['token']
+      decode = jwt.decode(token, os.getenv('SECRET'))
+
+      id = request.data['receta']
+      receta = Recipes.objects.get(id=id)
+
+      ingredientes = request.data['ingredientes']
+
+      if decode['user_id']==receta.chef.id:
+
+        serialized = IngredientSerializer(
+          data=ingredientes,
+          many=True
+        )
+
+        if serialized.is_valid():
+          serialized.save()
+          return Response(
+            status=status.HTTP_201_CREATED,
+            data=serialized.data
+          )
+        else:
+          return Response(
+            status=status.HTTP_400_BAD_REQUEST,
+            data=serialized.errors
+          )
+          
+      else:
+
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    except:
+
+      return Response(
+        status=status.HTTP_400_BAD_REQUEST
+      )
+
+class ViewIngredientGet(APIView):
 
   def post(self,request):
     try:

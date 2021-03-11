@@ -1,6 +1,7 @@
 from django.urls import path
-from ..viewsData.viewIngredient import ViewIngredient
+from ..viewsData.viewIngredient import ViewIngredientGet, ViewIngredientPost
 
 urlpatterns = [
-    path('', ViewIngredient.as_view())
+    path('', ViewIngredientPost.as_view()),
+    path('get/', ViewIngredientGet.as_view()),
 ]
