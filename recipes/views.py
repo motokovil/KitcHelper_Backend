@@ -16,7 +16,7 @@ class ViewRecipes(APIView):
 
     try:
       token = request.data['token']
-      decode = jwt.decode(token, os.getenv("SECRET"))
+      decode = jwt.decode(token, 'motk')
 
       data = request.data
       data['chef'] = decode['user_id']
@@ -47,7 +47,7 @@ class ViewRecipesGet(APIView):
     try:
 
       token = request.data['token']
-      decode = jwt.decode(token, os.getenv("SECRET"))
+      decode = jwt.decode(token, 'motk')
 
       recipes = Recipes.objects.filter(chef=decode['user_id'])
       serialized = RecipesSerializer(recipes, many=True)

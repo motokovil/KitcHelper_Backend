@@ -10,16 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-from dotenv import load_dotenv
-load_dotenv()
+#rom dotenv import load_dotenv
+#load_dotenv()
 
 # OR, the same with increased verbosity
-load_dotenv(verbose=True)
+#load_dotenv(verbose=True)
 
 # OR, explicitly providing path to '.env'
-from pathlib import Path  # Python 3.6+ only
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
+#from pathlib import Path  # Python 3.6+ only
+#env_path = Path('.') / '.env'
+#load_dotenv(dotenv_path=env_path)
 
 import os
 
@@ -48,10 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -179,7 +179,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': os.getenv("SECRET"),
+    'SIGNING_KEY': 'motk',
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,

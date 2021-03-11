@@ -36,7 +36,7 @@ class GetUser(APIView):
 
         try:
             token = request.data['token']
-            decode = jwt.decode(token, os.getenv("SECRET"))
+            decode = jwt.decode(token, 'motk')
 
             user = CustomUserModel.objects.get(id=decode['user_id'])
             serialized = CustomUserSerializerSafety(user)
