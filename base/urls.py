@@ -31,4 +31,5 @@ urlpatterns = [
     path('api/v1/newUser/', include('users.urls')),
     path('api/v1/Recipes/', include('recipes.urls')),
     path('api/v1/Ingredient/', include('recipes.urlsData.urlsIngredient')),
+    path('api/v1/Measure/', include('recipes.urlsData.urlsMeasure'))
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
