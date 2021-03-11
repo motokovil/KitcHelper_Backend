@@ -201,8 +201,7 @@ SIMPLE_JWT = {
 
 if DEBUG == False:
     CORS_ALLOWED_ORIGINS = [
-    "https://kitchelper.netlify.app/",
-    "http://localhost:3000",
+    "https://kitchelper.netlify.app/"
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
