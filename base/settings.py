@@ -36,7 +36,7 @@ SECRET_KEY = 'p+*i&565al47)enrz3*$^3@!0ab#pwmf=zkv9op^g8y4lden=7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['kitchelper.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -201,7 +201,7 @@ SIMPLE_JWT = {
 
 if DEBUG == False:
     CORS_ALLOWED_ORIGINS = [
-    "kitchelper.netlify.app/"
+    "https://kitchelper.netlify.app/"
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
