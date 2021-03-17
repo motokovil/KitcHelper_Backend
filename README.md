@@ -1,6 +1,6 @@
 # KitcHelper
 ## Ayudante de Cocina.
-Te ayuda a almacenar tus recetas favoritas y los productos que necesitas. Al iniciar una receta, KH consume lo necesario de los productos en la despensa. Si los productos se estan agotando, KH te provee de una lista de compras actualizada, para asi ahorrar tiempo y sepas exactamente lo que necesitas.
+Te ayuda a almacenar tus recetas favoritas y los productos que necesitas. Al iniciar una receta, KH consume lo necesario de los productos en la despensa. Si los productos se estan agotando, KH te provee de una lista de compras actualizada, para que asi ahorres tiempo y sepas exactamente lo que necesitas.
 
 ## Installation
 Usa pip para instalar el requirements.txt
