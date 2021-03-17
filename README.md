@@ -3,7 +3,10 @@
 Te ayuda a almacenar tus recetas favoritas y los productos que necesitas. Al iniciar una receta, KH consume lo necesario de los productos en la despensa. Si los productos se estan agotando, KH te provee de una lista de compras actualizada, para que asi ahorres tiempo y sepas exactamente lo que necesitas.
 
 ## Installation
-Usa pip para instalar el requirements.txt
+Crea e inicia un ambiente virtual de python.
+Usa pip para instalar el requirements.txt.
+Crea y haz las migraciones de las tablas.
+
 
 ## Endpoints
 Se emplea el metodo POST para la mayoria de solicitudes.
