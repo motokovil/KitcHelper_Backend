@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from recipes.models import Recipes, Measure, Ingredient, Method, Step
+from recipes.models import Recipes, Ingredient, Method, Step
 from recipes.serializers import IngredientSerializer
 
 import jwt
@@ -83,3 +83,9 @@ class ViewIngredientGet(APIView):
       return Response(
         status=status.HTTP_400_BAD_REQUEST,
       )
+
+
+
+
+
+

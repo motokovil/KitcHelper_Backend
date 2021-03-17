@@ -34,7 +34,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'p+*i&565al47)enrz3*$^3@!0ab#pwmf=zkv9op^g8y4lden=7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['kitchelper.herokuapp.com', '127.0.0.1']
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
+    'pantry.apps.PantryConfig',
 ]
 
 MIDDLEWARE = [

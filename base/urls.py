@@ -28,8 +28,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # USERS
     path('api/v1/newUser/', include('users.urls')),
+    
+    # RECIPES
     path('api/v1/Recipes/', include('recipes.urls')),
     path('api/v1/Ingredient/', include('recipes.urlsData.urlsIngredient')),
-    path('api/v1/Measure/', include('recipes.urlsData.urlsMeasure'))
+
+    # PANTRY
+    path('api/v1/Pantry/', include('pantry.urls')),
+
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

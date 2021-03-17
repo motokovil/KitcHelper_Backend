@@ -3,8 +3,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Recipes, Measure, Ingredient, Method, Step
-from .serializers import RecipesSerializer
+from .models import Recipes, Ingredient, Method, Step
+from .serializers import RecipesSerializer, IngredientSerializer
+
+from pantry.models import Product, Pantry
+from pantry.serializers import ProductSerializer
 
 import jwt
 import os
@@ -61,3 +64,106 @@ class ViewRecipesGet(APIView):
       return Response(
         status=status.HTTP_400_BAD_REQUEST
       )
+
+
+# Valida si los ingredientes están en la despensa (Pantry)
+# La cantidad de los ingredientes no sea mayor que lo disponible
+# Retorna una lista de los ingredientes que no están disponibles
+class ViewRecipeValidator(APIView):
+
+  def post(self, request):
+    
+    try:
+
+      token = request.data['token']
+      decode = jwt.decode(token, os.getenv("SECRET"))
+      user = decode['user_id']
+
+      receta = request.data['receta']
+      ingredients = Ingredient.objects.filter(receta=receta)
+
+      pantry = Pantry.objects.get(kitchen=user)
+      products = Product.objects.filter(pantry=pantry)
+      
+      for ingredient in ingredients:
+
+        if ingredient.producto is None:
+          pending = ingredients.filter(producto=None)
+          serialized = IngredientSerializer(pending, many=True)
+          
+          return Response(
+            status=status.HTTP_404_NOT_FOUND,
+            data=serialized.data
+          )
+
+        elif ingredient.cantidad > ingredient.producto.current:
+          pending = products.filter(current=0)
+          Pro = ProductSerializer(pending, many=True)
+
+          return Response(
+            status=status.HTTP_409_CONFLICT,
+            data=Pro.data
+          )
+
+      return Response(
+        status=status.HTTP_200_OK
+      )
+    
+    except:
+
+      return Response(
+        status=status.HTTP_400_BAD_REQUEST
+      )
+
+
+#Ejecuta una receta y resta los ingredientes usados en la despensa
+class ViewRecipeTrigger(APIView):
+
+  def post(self,request):
+
+    try:
+
+      token = request.data['token']
+      decode = jwt.decode(token, os.getenv("SECRET"))
+      user = decode['user_id']
+
+      receta = request.data['receta']
+      ingredients = Ingredient.objects.filter(receta=receta)
+
+      pantry = Pantry.objects.get(kitchen=user)
+      products = Product.objects.filter(pantry=pantry)
+      
+      for ingredient in ingredients:
+
+        if ingredient.cantidad <= ingredient.producto.current:
+          current = ingredient.producto.current - ingredient.cantidad
+          serialized = ProductSerializer(
+            instance=ingredient.producto,
+            data={"current": current},
+            partial=True
+          )
+
+          if serialized.is_valid():
+            serialized.save()
+
+        else:
+          pending = products.filter(current=0)
+          Pro = ProductSerializer(pending, many=True)
+          return Response(
+            status=status.HTTP_409_CONFLICT,
+            data=Pro.data
+          )
+
+      serialized = ProductSerializer(products, many=True)
+      return Response(
+        status=status.HTTP_200_OK,
+        data=serialized.data
+      )
+    
+    except:
+
+      return Response(
+        status=status.HTTP_400_BAD_REQUEST
+      )
+
+
