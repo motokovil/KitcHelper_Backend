@@ -4,6 +4,7 @@ from users.models import CustomUserModel
 
 
 
+
 # PANTRY
 class Pantry(models.Model):
   kitchen = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE)
@@ -69,10 +70,21 @@ class ShoppingList(models.Model):
 #SHOPPING ITEM
 class ShoppingItem(models.Model):
   lista = models.ForeignKey(ShoppingList, on_delete=models.CASCADE)
-  producto = models.ForeignKey(Product, on_delete=models.CASCADE)
+  titulo = models.CharField(max_length=200)
+  cantidad = models.IntegerField()
+  precio = models.IntegerField(
+    null=True,
+    blank=True
+  )
+  producto = models.ForeignKey(
+    Product, 
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+  )
 
   def __str__(self):
-      return self.producto.nombre
+      return self.titulo
   
 
 

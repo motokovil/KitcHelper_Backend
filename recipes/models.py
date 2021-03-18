@@ -10,6 +10,7 @@ class Recipes(models.Model):
   titulo = models.CharField(max_length=200)
   chef = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE)
 
+
   def __str__(self):
       return self.titulo
 

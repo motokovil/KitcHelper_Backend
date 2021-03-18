@@ -61,10 +61,19 @@ class ViewIngredientGet(APIView):
 
       token = request.data['token']
       decode = jwt.decode(token, os.getenv('SECRET'))
-
       id = request.data['recipe']
-      receta = Recipes.objects.get(id=id)
-      ingredientes = Ingredient.objects.filter(receta=receta)
+
+
+
+      try:
+        receta = Recipes.objects.get(id=id)
+        ingredientes = Ingredient.objects.filter(receta=receta)
+      except:
+        return Response(
+          status=status.HTTP_404_NOT_FOUND
+        )
+
+
 
       if decode['user_id'] == receta.chef.id:
         serialized = IngredientSerializer(ingredientes, many=True)
@@ -78,6 +87,16 @@ class ViewIngredientGet(APIView):
         return Response(
           status=status.HTTP_401_UNAUTHORIZED
         )
+
+
+
+
+
+
+      return Response(
+          status=status.HTTP_200_OK
+        )
+
     except:
 
       return Response(

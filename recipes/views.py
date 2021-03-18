@@ -6,8 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Recipes, Ingredient, Method, Step
 from .serializers import RecipesSerializer, IngredientSerializer
 
-from pantry.models import Product, Pantry
-from pantry.serializers import ProductSerializer
+from pantry.models import Product, Pantry, ShoppingList, ShoppingItem
+from pantry.serializers import ProductSerializer, ShoppingListSerializer, ShoppingItemSerializer
 
 import jwt
 import os
@@ -61,6 +61,7 @@ class ViewRecipesGet(APIView):
       )
     except:
 
+      
       return Response(
         status=status.HTTP_400_BAD_REQUEST
       )
@@ -83,32 +84,82 @@ class ViewRecipeValidator(APIView):
       ingredients = Ingredient.objects.filter(receta=receta)
 
       pantry = Pantry.objects.get(kitchen=user)
-      products = Product.objects.filter(pantry=pantry)
-      
-      for ingredient in ingredients:
 
-        if ingredient.producto is None:
-          pending = ingredients.filter(producto=None)
-          serialized = IngredientSerializer(pending, many=True)
-          
-          return Response(
-            status=status.HTTP_404_NOT_FOUND,
-            data=serialized.data
-          )
 
-        elif ingredient.cantidad > ingredient.producto.current:
-          pending = products.filter(current=0)
-          Pro = ProductSerializer(pending, many=True)
+      #Creando lista para posibles productos pendientes
+      listaInfo = {
+        "titulo":"Lista de compras",
+        "descripcion":"Debes primero comprar los ingredientes de esta lista.",
+        "pantry": pantry.id
+      }
 
+      lista = ShoppingListSerializer(data=listaInfo)
+
+      if lista.is_valid():
+        lista.save()
+
+        for ingredient in ingredients:
+          #Valida si los ingredientes estan en la despensa
+          if ingredient.producto is None:
+            print("Its NONE")
+            itemInfo = {
+              "lista":lista.data['id'],
+              "titulo": ingredient.nombre,
+              "cantidad": ingredient.cantidad
+            }
+            # Almacenar y validar
+            item = ShoppingItemSerializer(data=itemInfo)
+            if item.is_valid():
+              item.save()
+              #
+              #
+              #
+          elif ingredient.cantidad > ingredient.producto.current:
+            # Almacena los productos insuficientes para la receta, en la lista de compras
+            itemInfo = {
+              "lista":lista.data['id'],
+              "producto":ingredient.producto.id,
+              "titulo": ingredient.nombre,
+              "precio": ingredient.producto.precio,
+            }
+
+            item = ShoppingItemSerializer(data=itemInfo)
+            if item.is_valid():
+              item.save()
+
+
+
+
+
+        # Lista de items vinculados a la lista
+        shoppingListItems = ShoppingItem.objects.filter(lista=lista.data['id'])
+
+        # Si la lista tiene mas de un item retorna la lista
+        # De lo contrario la elimina.
+        print(shoppingListItems)
+        if len(shoppingListItems) >= 1:
+          serialized = ShoppingItemSerializer(shoppingListItems, many=True)
           return Response(
             status=status.HTTP_409_CONFLICT,
-            data=Pro.data
+            data=serialized.data
           )
+        else:
+          newList = ShoppingList.objects.get(id=lista.data['id'])
+          newList.delete()
+          print("Lista eliminada")
+
+      else:
+
+        return Response(
+          status=status.HTTP_411_LENGTH_REQUIRED,
+          data=lista.errors
+        )
+
 
       return Response(
         status=status.HTTP_200_OK
       )
-    
+
     except:
 
       return Response(
