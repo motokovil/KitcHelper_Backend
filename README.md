@@ -12,12 +12,10 @@ Realiza las migraciones de las tablas.
 ## Endpoints
 Se emplea el metodo POST para la mayoria de solicitudes.
 
-### Api / v1 / Recipes / get, post, patch, delete /
+### Api / v1 / Recipes /
 
-```python
-  #Get
-  Body = { "token" : jsonwebtoken }
-  
+```python  
+
   #Post
   Body = { 
     "titulo" : "titulo de la receta",
@@ -40,3 +38,8 @@ Si la receta tiene ingredientes nuevos que no estan en la despensa o si al valid
     "receta" : 1
   }
 ```
+
+### Api / v1 / Pantry / ShoppingList /
+Retorna una lista de compras general de acuerdo a los productos que tienes en la despensa, validando cuales de ellos estan por agotarse.
+### Api / v1 / Pantry / ShoppingList / get /
+Es una vista para todas las listas de compras que han sido creadas.
