@@ -29,7 +29,7 @@ class ViewShoppingList(APIView):
       #
       # Token
       try:
-        token = request.data['token']
+        token = request.headers['authorization'].split(" ")[1]
         decode = jwt.decode(token, os.getenv("SECRET"))
         user = decode['user_id']
       except:
@@ -95,9 +95,9 @@ class ViewShoppingList(APIView):
                   "data": serialized.errors
                 }
               )
-        #
-        #
-        #
+      #
+      #
+      #
       else:
         return Response(
           status=status.HTTP_400_BAD_REQUEST,
@@ -112,7 +112,11 @@ class ViewShoppingList(APIView):
         serialized = ShoppingItemSerializer(shoppingItem, many=True)
         return Response(
           status=status.HTTP_200_OK,
-          data=serialized.data
+          data={
+            "multipass": True,
+            "detail": "Lista de compra creada",
+            "data": serialized.data
+          }
         )
       else:
         ShoppingList.objects.get(id=listaID).delete()
