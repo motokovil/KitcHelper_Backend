@@ -5,42 +5,79 @@ Te ayuda a almacenar tus recetas favoritas y los productos que necesitas. Al ini
 ## Installation
 Crea e inicia un ambiente virtual de python.
 Usa pip para instalar el requirements.txt.
-Crea y haz las migraciones de las tablas.
+Comprueba que el modo debug este en False antes de desplegar.
+Realiza las migraciones de las tablas.
 
 
 ## Endpoints
 Se emplea el metodo POST para la mayoria de solicitudes.
 
-### Api / v1 / Recipes / get, post, patch, delete /
+### Api / v1 / Recipes /
 
-Para gestionar las recetas y la mayoria de apps en los endpoints publicos, se toma como referencia el "user_id" codificado en el token de autenticación.
+```python  
 
-```python
-  #Get
-  Body = { "token" : jsonwebtoken }
-  
   #Post
   Body = { 
-    "token" : jsonwebtoken,
     "titulo" : "titulo de la receta",
+    ...
   }
   
   #Patch & Delete
   Body = { 
-    "token" : jsonwebtoken,
     "receta" : 1,
-    ...
+    "data": {"titulo": "Pizza"}
   }
   
 ```
-### Api / v1 / Recipes /
-#### Validate
-Si la receta tiene ingredientes nuevos que no estan en la despensa, retorna una lista con todos ellos. Por otro lado si al validar la despensa los ingredientes no son suficientes para la receta, retorna una lista con lo que hace falta.
+### Api / v1 / Recipes / Execute /
+#### Execute
+Si la receta tiene ingredientes nuevos que no estan en la despensa o si al validar la despensa los ingredientes no son suficientes para la receta, retorna una lista con lo que hace falta. En caso de que estén los productos disponibles, consumirán lo necesario para realizar la receta proporcionada.
 
 ```python
-  # api/v1/Recipes/validate/
   Body = { 
-    "token" : jsonwebtoken,
     "receta" : 1
   }
+```
+
+### Api / v1 / Pantry / ShoppingList /
+Retorna una lista de compras general de acuerdo a los productos que tienes en la despensa, validando cuales de ellos estan por agotarse.
+```python
+{
+  "multipass": true,
+  "detail": "Lista de compra creada",
+  "data": [
+    {
+      "id": 180,
+      "titulo": "Tomate",
+      "cantidad": 5,
+      "precio": 2000,
+      "lista": 213,
+      "producto": 2
+    }
+  ]
+}
+```
+### Api / v1 / Pantry / ShoppingList / get /
+Es una vista para todas las listas de compras que han sido creadas.
+```python
+{
+  "multipass": true,
+  "detail": "Listas de compra",
+  "data": [
+    {
+      "id": 210,
+      "titulo": "Nueva lista",
+      "descripcion": "Descripcion",
+      "activa": true,
+      "pantry": 1
+    },
+    {
+      "id": 211,
+      "titulo": "Nueva lista",
+      "descripcion": "Descripcion",
+      "activa": true,
+      "pantry": 1
+    }
+  ]
+}
 ```
