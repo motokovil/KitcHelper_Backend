@@ -41,5 +41,43 @@ Si la receta tiene ingredientes nuevos que no estan en la despensa o si al valid
 
 ### Api / v1 / Pantry / ShoppingList /
 Retorna una lista de compras general de acuerdo a los productos que tienes en la despensa, validando cuales de ellos estan por agotarse.
+```python
+{
+  "multipass": true,
+  "detail": "Lista de compra creada",
+  "data": [
+    {
+      "id": 180,
+      "titulo": "Tomate",
+      "cantidad": 5,
+      "precio": 2000,
+      "lista": 213,
+      "producto": 2
+    }
+  ]
+}
+```
 ### Api / v1 / Pantry / ShoppingList / get /
 Es una vista para todas las listas de compras que han sido creadas.
+```python
+{
+  "multipass": true,
+  "detail": "Listas de compra",
+  "data": [
+    {
+      "id": 210,
+      "titulo": "Nueva lista",
+      "descripcion": "Descripcion",
+      "activa": true,
+      "pantry": 1
+    },
+    {
+      "id": 211,
+      "titulo": "Nueva lista",
+      "descripcion": "Descripcion",
+      "activa": true,
+      "pantry": 1
+    }
+  ]
+}
+```
