@@ -10,8 +10,6 @@ Realiza las migraciones de las tablas.
 
 
 ## Endpoints
-Se emplea el metodo POST para la mayoria de solicitudes.
-
 ### Api / v1 / Recipes /
 
 ```python  
