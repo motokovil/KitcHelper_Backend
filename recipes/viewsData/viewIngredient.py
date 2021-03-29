@@ -310,7 +310,7 @@ class ViewIngredientGet(APIView):
           data={
             "multipass": False,
             "detail": "No se encontro esa receta",
-            "data": id+1000
+            "data": id
           }
         )
       
