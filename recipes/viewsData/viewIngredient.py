@@ -303,14 +303,14 @@ class ViewIngredientGet(APIView):
       # Obtiene los ingredientes de la receta o NOT FOUND
       try:
         
-        receta = Recipes.objects.get(id=id[0])
+        receta = Recipes.objects.get(id=id)
       except:
         return Response(
           status=status.HTTP_404_NOT_FOUND,
           data={
             "multipass": False,
             "detail": "No se encontro esa receta",
-            "data": id[0]
+            "data": id+1000
           }
         )
       
