@@ -309,7 +309,8 @@ class ViewIngredientGet(APIView):
           status=status.HTTP_404_NOT_FOUND,
           data={
             "multipass": False,
-            "detail": "No se encontro esa receta"
+            "detail": "No se encontro esa receta",
+            "data": id
           }
         )
       
