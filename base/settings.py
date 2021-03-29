@@ -34,7 +34,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'p+*i&565al47)enrz3*$^3@!0ab#pwmf=zkv9op^g8y4lden=7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['kitchelper.herokuapp.com', '127.0.0.1']
 
@@ -203,6 +203,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "https://kitchelper.netlify.app",
     "http://localhost:3000",
+    "http://192.168.1.14:3000",
 ]
 
 
