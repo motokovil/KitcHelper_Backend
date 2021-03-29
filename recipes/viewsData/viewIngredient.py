@@ -267,11 +267,14 @@ class ViewIngredientGet(APIView):
 
   def post(self,request):
     try:
+      #
+      #
+      #
+      # Token
 
       try:
         token = request.headers['authorization'].split(" ")[1]
         decode = jwt.decode(token, os.getenv('SECRET'))
-        id = request.data['recipe']
         user = decode['user_id']
       except:
         return Response(
@@ -279,6 +282,20 @@ class ViewIngredientGet(APIView):
           data={
             "multipass": False,
             "detail": "NO information"
+          }
+        )
+      #
+      #
+      #
+      # Recipe
+      try:
+        id = request.data['recipe'],
+      except:
+        return Response(
+          status=status.HTTP_404_NOT_FOUND,
+          data={
+            "multipass": False,
+            "detail": "Receta no encontrada"
           }
         )
 
