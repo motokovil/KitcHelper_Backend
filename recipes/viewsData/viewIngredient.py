@@ -304,13 +304,25 @@ class ViewIngredientGet(APIView):
       try:
         
         receta = Recipes.objects.get(id=id)
-        ingredientes = Ingredient.objects.filter(receta=receta)
       except:
         return Response(
           status=status.HTTP_404_NOT_FOUND,
           data={
             "multipass": False,
             "detail": "No se encontro esa receta"
+          }
+        )
+      
+      try:
+        
+        
+        ingredientes = Ingredient.objects.filter(receta=receta)
+      except:
+        return Response(
+          status=status.HTTP_404_NOT_FOUND,
+          data={
+            "multipass": False,
+            "detail": "No se encontraron los ingredientes"
           }
         )
 
