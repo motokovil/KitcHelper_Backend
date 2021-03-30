@@ -302,6 +302,7 @@ class ViewIngredientGet(APIView):
 
       # Obtiene los ingredientes de la receta o NOT FOUND
       try:
+        print("LA RECETA ID:", id[0])
         receta = Recipes.objects.get(id=id[0])
       except:
         return Response(
@@ -314,7 +315,7 @@ class ViewIngredientGet(APIView):
       
       try:
         
-        
+        print("INGGREDIENTES <======###")
         ingredientes = Ingredient.objects.filter(receta=receta)
       except:
         return Response(
