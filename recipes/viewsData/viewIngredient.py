@@ -332,7 +332,27 @@ class ViewIngredientGet(APIView):
       if user == receta.chef.id:
         print("USER == CHEF <======###")
         serialized = IngredientSerializer(ingredientes, many=True)
+
+
+        if serialized.is_valid():
+          return Response (
+            status=status.HTTP_406_NOT_ACCEPTABLE,
+            data={
+              "multipass": False,
+              "data": serialized.data
+            }
+          )
+        else:
+          return Response (
+            status=status.HTTP_406_NOT_ACCEPTABLE,
+            data={
+              "multipass": False,
+              "data": serialized.errors
+            }
+          )
         
+
+
         if len(ingredientes) == 0:
           print("LEN INGREDIENTES == 0")
           return Response(
