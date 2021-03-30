@@ -334,6 +334,7 @@ class ViewIngredientGet(APIView):
         serialized = IngredientSerializer(ingredientes, many=True)
         
         if len(ingredientes) == 0:
+          print("LEN INGREDIENTES == 0")
           return Response(
             status=status.HTTP_404_NOT_FOUND,
             data={
@@ -345,6 +346,7 @@ class ViewIngredientGet(APIView):
             }
           )
         else:
+          print("LEN INGREDIENTES !== 0")
           return Response(
             status=status.HTTP_200_OK,
             data={
