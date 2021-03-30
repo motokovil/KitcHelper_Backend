@@ -330,6 +330,7 @@ class ViewIngredientGet(APIView):
 
 
       if user == receta.chef.id:
+        print(ingredientes)
         serialized = IngredientSerializer(ingredientes, many=True)
         print("SERIALIZED, Ingredients")
 
