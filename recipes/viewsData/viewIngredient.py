@@ -315,9 +315,9 @@ class ViewIngredientGet(APIView):
       
       try:
         
-        print("INGGREDIENTES <======###")
         ingredientes = Ingredient.objects.filter(receta=receta)
       except:
+        print("EXCEPT INGREDIENTES <======###")
         return Response(
           status=status.HTTP_404_NOT_FOUND,
           data={
@@ -328,9 +328,9 @@ class ViewIngredientGet(APIView):
 
 
 
-      if decode['user_id'] == receta.chef.id:
+      if user == receta.chef.id:
         serialized = IngredientSerializer(ingredientes, many=True)
-
+        print("USER !== CHEF <======###")
         if len(serialized.data) == 0:
           return Response(
             status=status.HTTP_404_NOT_FOUND,
