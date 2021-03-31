@@ -58,7 +58,7 @@ class ViewIngredients(APIView):
 
       # Valida si la receta es propia
       if user == receta.chef.id:
-
+        
         for ingredient in ingredientes:
           ingredient['receta'] = receta.id
         #

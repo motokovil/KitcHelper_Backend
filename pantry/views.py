@@ -195,7 +195,57 @@ class ViewShoppingListGet(APIView):
       )
 
 
+class ViewProduct(APIView):
 
+  def get(self,request):
+
+    #
+    #
+    #
+    # Token
+    try:
+        token = request.headers['authorization'].split(" ")[1]
+        decode = jwt.decode(token, os.getenv('SECRET'))
+        user = decode['user_id']   
+    except:
+      return Response(
+        status=status.HTTP_401_UNAUTHORIZED, 
+        data={
+          "multipass":False,
+          "detail": "NO information"
+        }
+      )
+    
+    #
+    #
+    #
+    # Pantry & Products
+    try:
+
+      pantry = Pantry.objects.get(kitchen=user)
+      products = Product.objects.filter(pantry=pantry)
+    except:
+
+      return Response(
+        status=status.HTTP_404_NOT_FOUND,
+        data={
+          "multipass": False,
+          "detail": "No se encontro la despensa"
+        }
+      )
+    #
+    #
+    #
+    # Serializar
+    serialized = ProductSerializer(products ,many=True)
+    return Response(
+      status=status.HTTP_200_OK,
+      data={
+        "multipass": True,
+        "detail": "Los productos de tu despensa",
+        "data": serialized.data
+      }
+    )
 
 
 
